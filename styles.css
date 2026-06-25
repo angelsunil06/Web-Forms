@@ -1,0 +1,149 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #1d4ed8, #60a5fa);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 650px;
+}
+
+form {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+h1 {
+  text-align: center;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #475569;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+textarea {
+  resize: vertical;
+}
+
+.radio-group {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.radio-group label,
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.radio-group input,
+.checkbox-group input {
+  width: auto;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.error {
+  display: block;
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin-top: 6px;
+  min-height: 18px;
+}
+
+.success-message {
+  margin-top: 16px;
+  text-align: center;
+  color: #15803d;
+  font-weight: bold;
+}
+
+input.invalid,
+select.invalid,
+textarea.invalid {
+  border-color: #dc2626;
+  background: #fff7f7;
+}
+
+input.valid,
+select.valid,
+textarea.valid {
+  border-color: #16a34a;
+}
+
+@media (max-width: 600px) {
+  form {
+    padding: 24px;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
