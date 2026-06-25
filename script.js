@@ -1,88 +1,130 @@
 const form = document.getElementById("feedbackForm");
+const successMessage = document.getElementById("successMessage");
+
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const phoneInput = document.getElementById("phone");
 const topicInput = document.getElementById("topic");
 const messageInput = document.getElementById("message");
 const termsInput = document.getElementById("terms");
-const successMessage = document.getElementById("successMessage");
 
 function showError(input, message) {
   const error = input.parentElement.querySelector(".error");
   input.classList.add("invalid");
   input.classList.remove("valid");
-  error.textContent = message;
+  if (error) error.textContent = message;
 }
 
 function showSuccess(input) {
   const error = input.parentElement.querySelector(".error");
   input.classList.remove("invalid");
   input.classList.add("valid");
-  error.textContent = "";
+  if (error) error.textContent = "";
 }
 
 function validateEmail(email) {
-  return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function validatePhone(phone) {
+  return /^\d{10}$/.test(phone);
+}
+
+function validateName() {
+  if (nameInput.value.trim().length < 3) {
+    showError(nameInput, "Name must be at least 3 characters.");
+    return false;
+  }
+  showSuccess(nameInput);
+  return true;
+}
+
+function validateEmailField() {
+  if (!validateEmail(emailInput.value.trim())) {
+    showError(emailInput, "Enter a valid email address.");
+    return false;
+  }
+  showSuccess(emailInput);
+  return true;
+}
+
+function validatePhoneField() {
+  if (!validatePhone(phoneInput.value.trim())) {
+    showError(phoneInput, "Phone number must be exactly 10 digits.");
+    return false;
+  }
+  showSuccess(phoneInput);
+  return true;
+}
+
+function validateTopic() {
+  if (topicInput.value === "") {
+    showError(topicInput, "Please select a feedback topic.");
+    return false;
+  }
+  showSuccess(topicInput);
+  return true;
+}
+
+function validateRating() {
+  const selectedRating = document.querySelector('input[name="rating"]:checked');
+  const ratingError = document.getElementById("ratingError");
+
+  if (!selectedRating) {
+    ratingError.textContent = "Please choose a rating.";
+    return false;
+  }
+
+  ratingError.textContent = "";
+  return true;
+}
+
+function validateMessage() {
+  if (messageInput.value.trim().length < 10) {
+    showError(messageInput, "Feedback must be at least 10 characters.");
+    return false;
+  }
+  showSuccess(messageInput);
+  return true;
+}
+
+function validateTerms() {
+  const termsError = document.getElementById("termsError");
+
+  if (!termsInput.checked) {
+    termsError.textContent = "Please confirm before submitting.";
+    return false;
+  }
+
+  termsError.textContent = "";
+  return true;
 }
 
 function validateForm() {
-  let isValid = true;
-  successMessage.textContent = "";
+  const checks = [
+    validateName(),
+    validateEmailField(),
+    validatePhoneField(),
+    validateTopic(),
+    validateRating(),
+    validateMessage(),
+    validateTerms()
+  ];
 
-  if (nameInput.value.trim().length < 3) {
-    showError(nameInput, "Name must be at least 3 characters.");
-    isValid = false;
-  } else {
-    showSuccess(nameInput);
-  }
-
-  if (!validateEmail(emailInput.value.trim())) {
-    showError(emailInput, "Enter a valid email address.");
-    isValid = false;
-  } else {
-    showSuccess(emailInput);
-  }
-
-  if (!/^\\d{10}$/.test(phoneInput.value.trim())) {
-    showError(phoneInput, "Phone number must be exactly 10 digits.");
-    isValid = false;
-  } else {
-    showSuccess(phoneInput);
-  }
-
-  if (topicInput.value === "") {
-    showError(topicInput, "Please select a feedback topic.");
-    isValid = false;
-  } else {
-    showSuccess(topicInput);
-  }
-
-  const selectedRating = document.querySelector('input[name="rating"]:checked');
-  const ratingError = document.getElementById("ratingError");
-  if (!selectedRating) {
-    ratingError.textContent = "Please choose a rating.";
-    isValid = false;
-  } else {
-    ratingError.textContent = "";
-  }
-
-  if (messageInput.value.trim().length < 10) {
-    showError(messageInput, "Feedback must be at least 10 characters.");
-    isValid = false;
-  } else {
-    showSuccess(messageInput);
-  }
-
-  const termsError = document.getElementById("termsError");
-  if (!termsInput.checked) {
-    termsError.textContent = "Please confirm before submitting.";
-    isValid = false;
-  } else {
-    termsError.textContent = "";
-  }
-
-  return isValid;
+  return checks.every(Boolean);
 }
+
+/* Real-time validation */
+nameInput.addEventListener("input", validateName);
+emailInput.addEventListener("input", validateEmailField);
+phoneInput.addEventListener("input", validatePhoneField);
+topicInput.addEventListener("change", validateTopic);
+messageInput.addEventListener("input", validateMessage);
+termsInput.addEventListener("change", validateTerms);
+
+document.querySelectorAll('input[name="rating"]').forEach(radio => {
+  radio.addEventListener("change", validateRating);
+});
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -95,5 +137,10 @@ form.addEventListener("submit", function (e) {
     fields.forEach(field => {
       field.classList.remove("valid", "invalid");
     });
+
+    document.getElementById("ratingError").textContent = "";
+    document.getElementById("termsError").textContent = "";
+  } else {
+    successMessage.textContent = "";
   }
 });
