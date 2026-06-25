@@ -114,7 +114,7 @@ function validateForm() {
   return checks.every(Boolean);
 }
 
-/* Real-time validation */
+
 nameInput.addEventListener("input", validateName);
 emailInput.addEventListener("input", validateEmailField);
 phoneInput.addEventListener("input", validatePhoneField);
