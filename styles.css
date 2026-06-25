@@ -135,6 +135,7 @@ input.valid,
 select.valid,
 textarea.valid {
   border-color: #16a34a;
+  background: #f8fff9;
 }
 
 @media (max-width: 600px) {
